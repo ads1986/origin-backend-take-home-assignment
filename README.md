@@ -1,3 +1,130 @@
+Project Structure
+=================
+
+In this project I'm appling some key points from [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) and some concepts that I consider important focusing on the requirements described in the topic [Criteria](#Criteria). I'm not following all the concepts "by the book", but focusing on what makes sense for the project, given its size and requirements (avoiding over engineering).
+
+I'm also applying some architectural principles like [SOLID](https://www.baeldung.com/solid-principles) (only what applies), [KISS](https://www.interaction-design.org/literature/article/kiss-keep-it-simple-stupid-a-design-principle) and [DRY](https://pt.wikipedia.org/wiki/Don%27t_repeat_yourself) which I consider important in a project where we are looking for code quality, simplicity, readability, maintainability.
+
+Domain Layer
+------------
+
+The ``Domain`` contains all the application's business logic and is ``isolated`` from the "outside world". Here, we expose de Business rules throughout ``interfaces`` ([Ports](http://wiki.c2.com/?PortsAndAdaptersArchitecture)), avoiding exposing the implementation details. The classes in this Layer don't know who is calling and don't have references for external dependencies.
+
+```
+
+ /
+ └── src
+     └── main
+         ├── java
+         │    └── com.origin.financial
+         │        ├── ...
+         │            ...
+         │        ├── domain
+         │            ├── model
+         │            │   └── ...
+         │            └── usecase
+         │                └── impl
+         │                └── ...
+         │        ├── ...
+         test
+         └── java
+             └── com.origin.financial
+                 ├── domain.usecase.impl
+                 │   └── ...
+                 ...
+```
+
+| Package                           | Description                                                     |
+| --------------------------------- |:----------------------------------------------------------------|
+| model                             |  The ``model`` package holds the Entities with the  Business rules. As described in the article described by Uncle Bob ([click here](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html#entities)) the Entities contains the ``most general high-level rules``. For example, the [Customer](https://github.com/ads1986/backend-challenges-solutions/blob/main/origin-financial/backend-take-home-assigment/src/main/java/com/origin/financial/domain/model/Customer.java) class has the fields which data is stored and the methods with all the rules related to the customer. We can see this in the ``hasAgeAboveSixty()`` method, that will return true if the customer is more than 60 years old.  Rather than repeat the same code throughout the application, we respect the principles [DRY (Don’t Repeat Yourself)](https://pt.wikipedia.org/wiki/Don%27t_repeat_yourself) and [Single Responsability](https://www.baeldung.com/solid-principles#s) centralizing the rule in a single point. |
+| usecase                           |  The ``usecase`` package holds the classes with application specific business rules, in other words, the classes here shows "what the application do". For example, the class [ProcessHomeInsuranceImpl](https://github.com/ads1986/backend-challenges-solutions/blob/main/origin-financial/backend-take-home-assigment/src/main/java/com/origin/financial/domain/usecase/impl/ProcessHomeInsuranceImpl.java)  has the rules to process an insurance for a Home and this funcionality is exposed by the [ProcessHomeInsurance](https://github.com/ads1986/backend-challenges-solutions/blob/main/origin-financial/backend-take-home-assigment/src/main/java/com/origin/financial/domain/usecase/ProcessHomeInsurance.java) interface, following the [Dependency Inversion](https://www.baeldung.com/solid-principles#d) principle. |
+| tests (Unit Tests)                |  The ``tests`` (being more specific ``test.java.com.origin.financial.domain.usecase.impl``) package has the classes for the Unit Tests. Here we test what is realy necessary, in this case, we are testing all types of insurances (a class for each usecase). |
+
+Presentation Layer
+-------------
+
+The ``Presentation`` contains the classes that will interact with the "external users" to provide the applications funcionality. In this project, we are exposing a REST API as an entry point to access the funcionalty properly.
+
+```
+
+ /
+ └── src
+     └── main
+         ├── java
+         │    └── com.origin.financial
+         │        ├── presentation
+         │            ├── controller
+         │            │   └── ...
+         │            └── request
+         │                └── ...
+         test
+         └── java
+             └── com.origin.financial
+                 ├── presentation.controller
+                 │   └── ...
+                 ...
+```
+
+| Package                           | Class                                                            |
+| --------------------------------- |:----------------------------------------------------------------|
+| controller                        | The ``controller`` package holds the classes we use to expose functionality through a REST API. For example, the class [InsuranceController](https://github.com/ads1986/backend-challenges-solutions/blob/main/origin-financial/backend-take-home-assigment/src/main/java/com/origin/financial/presentation/controller/InsuranceController.java) exposes the API ``[POST] /insurance/profile``. |
+| tests (Integrated Tests)          |  The ``tests`` (been more specific ``test.java.com.origin.financial.presentation.controller``) package has the classes for the Integrated Tests. Here we test the complete functionality, in other words, thinking with the users point of view. |
+
+Config Layer
+-----------------
+
+The ``Config`` layer has the classes that support the general configurations of the application.
+
+```
+
+ /
+ └── src
+     └── main
+         ├── java
+         │    └── com.origin.financial
+         │        ├── config
+         │            ├── exception
+         │            │   └── ...
+         │            ...
+         │        ├── ...
+         ...
+```
+
+| Appication                        | Class                                                            |
+| --------------------------------- |:----------------------------------------------------------------|
+| config                            | For exemple, we have the class [CustomResponseEntityExceptionHandler](https://github.com/ads1986/backend-challenges-solutions/blob/main/origin-financial/backend-take-home-assigment/src/main/java/com/origin/financial/config/CustomResponseEntityExceptionHandler.java) that handle exceptions thrown by the API, for example, when validating mandatory fields, expected values e etc. |
+
+Configuration
+=============
+
+1. After clone the repository, access the project's root folder and run the command bellow:
+
+```bash
+   $ gradlew bootRun
+```
+
+> :warning: **Java 11 ou greater is necessary**: Check before run the app
+
+2. To test the code, just run the following command :
+
+```bash
+   $ gradlew test --info
+```
+
+> :warning: **Testing Report**: To access the report, open the file "...\build\reports\tests\test"\index.html" in the projects´s root folder (use any Browser)
+
+![image](img/testing-img.PNG)
+
+Usage
+=====
+
+To validate the API endpoint, I provide a Postman project in the endpoints folder. See below : 
+
+```bash
+endpoints
+└── Insurance.postman_collection.json
+```
+
 # Origin Backend Take-Home Assignment
 Origin offers its users an insurance package personalized to their specific needs without requiring the user to understand anything about insurance. This allows Origin to act as their *de facto* insurance advisor.
 
@@ -84,5 +211,3 @@ Other important notes:
 This assignment should be doable in less than one day. We expect you to learn fast, **communicate with us**, and make decisions regarding its implementation & scope to achieve the expected results on time.
 
 It is not necessary to build the screens a user would interact with, however, as the API is intended to power a user-facing application, we expect the implementation to be as close as possible to what would be necessary in real-life. Consider another developer would get your project/repository to evolve and implement new features from exactly where you stopped. 
-
-

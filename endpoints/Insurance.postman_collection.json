@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "a904749c-3e0a-4269-ac91-d97c278cf1de",
+		"name": "Insurance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "[Insurance] - Risk Profile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"age\": 35,\r\n  \"dependents\": 2,\r\n  \"house\": {\r\n      \"ownership_status\": \"owned\"\r\n   },\r\n  \"income\": 0,\r\n  \"marital_status\": \"married\",\r\n  \"risk_questions\": [0, 1, 0],\r\n  \"vehicle\": {\"year\": 2018}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/insurance/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insurance",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
