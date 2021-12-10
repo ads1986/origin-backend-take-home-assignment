@@ -3,9 +3,9 @@ package com.origin.financial.domain.usecase.impl;
 import com.origin.financial.domain.model.Customer;
 import com.origin.financial.domain.model.RiskScore;
 import com.origin.financial.domain.usecase.ProcessAutoInsurance;
-import org.springframework.stereotype.Component;
+import javax.inject.Named;
 
-@Component
+@Named
 public class ProcessAutoInsuranceImpl implements ProcessAutoInsurance {
 
     @Override

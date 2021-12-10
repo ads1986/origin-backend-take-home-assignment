@@ -3,9 +3,10 @@ package com.origin.financial.domain.usecase.impl;
 import com.origin.financial.domain.model.Customer;
 import com.origin.financial.domain.model.RiskScore;
 import com.origin.financial.domain.usecase.ProcessHomeInsurance;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.inject.Named;
+
+@Named
 public class ProcessHomeInsuranceImpl implements ProcessHomeInsurance {
 
     @Override
