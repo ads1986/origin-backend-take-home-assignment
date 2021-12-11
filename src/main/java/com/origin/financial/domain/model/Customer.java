@@ -13,8 +13,8 @@ import java.util.List;
 @Getter
 public class Customer {
 
-    public static final String MARRIED_STATUS = "married";
-    public static final String SINGLE_STATUS = "single";
+    public static final String MARRIED = "married";
+    public static final String SINGLE = "single";
 
     private static Integer AGE_THIRTY = 30;
     private static Integer AGE_FORTY = 40;
@@ -30,7 +30,7 @@ public class Customer {
     private Vehicle vehicle;
 
     public Boolean isMarried(){
-        return maritalStatus == MARRIED_STATUS;
+        return maritalStatus == MARRIED;
     }
 
     public Boolean hasDependentes(){

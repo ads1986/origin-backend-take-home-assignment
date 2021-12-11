@@ -7,12 +7,12 @@ import lombok.Getter;
 @Getter
 public class House {
 
-    public static final String MORTGAGED_STATUS = "mortgaged";
-    public static final String OWNED_STATUS = "single";
+    public static final String MORTGAGED = "mortgaged";
+    public static final String OWNED = "single";
 
     private String ownershipStatus;
 
     public Boolean isMortgaged(){
-        return this.ownershipStatus == MORTGAGED_STATUS;
+        return this.ownershipStatus == MORTGAGED;
     }
 }

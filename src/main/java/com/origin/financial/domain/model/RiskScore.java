@@ -2,6 +2,11 @@ package com.origin.financial.domain.model;
 
 public class RiskScore {
 
+    private static final String INELIGIBLE = "ineligible";
+    private static final String ECONOMIC = "economic";
+    private static final String REGULAR = "regular";
+    private static final String RESPONSIBLE = "responsible";
+
     private int score;
     private boolean ineligible;
     private Customer customer;
@@ -76,5 +81,19 @@ public class RiskScore {
 
     public int getScore() {
         return score;
+    }
+
+
+    public String getProfile(){
+        if (this.ineligible)
+            return INELIGIBLE;
+
+        if (this.score <= 0)
+            return ECONOMIC;
+
+        if (this.score == 1 || this.score == 2)
+            return REGULAR;
+
+        return RESPONSIBLE;
     }
 }

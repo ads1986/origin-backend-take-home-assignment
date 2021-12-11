@@ -1,10 +1,10 @@
 package com.origin.financial.presentation.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.origin.financial.domain.usecase.ProcessAutoInsurance;
-import com.origin.financial.domain.usecase.ProcessDisabilityInsurance;
-import com.origin.financial.domain.usecase.ProcessHomeInsurance;
-import com.origin.financial.domain.usecase.ProcessLifeInsurance;
+import com.origin.financial.domain.usecase.CalculateAutoInsurance;
+import com.origin.financial.domain.usecase.CalculateDisabilityInsurance;
+import com.origin.financial.domain.usecase.CalculateHomeInsurance;
+import com.origin.financial.domain.usecase.CalculateLifeInsurance;
 import com.origin.financial.presentation.request.CustomerRequest;
 import com.origin.financial.presentation.request.HouseRequest;
 import com.origin.financial.presentation.request.VehicleRequest;
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
-import static com.origin.financial.domain.model.House.MORTGAGED_STATUS;
+import static com.origin.financial.domain.model.House.MORTGAGED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,16 +37,16 @@ public class InsuranceIntegratedTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private ProcessHomeInsurance homeInsurance;
+    private CalculateHomeInsurance homeInsurance;
 
     @Autowired
-    private ProcessAutoInsurance autoInsurance;
+    private CalculateAutoInsurance autoInsurance;
 
     @Autowired
-    private ProcessLifeInsurance lifeInsurance;
+    private CalculateLifeInsurance lifeInsurance;
 
     @Autowired
-    private ProcessDisabilityInsurance disabilityInsurance;
+    private CalculateDisabilityInsurance disabilityInsurance;
 
     @Test
     void requestToken() throws Exception {
@@ -54,7 +54,7 @@ public class InsuranceIntegratedTest {
 
         request.setAge(35);
         request.setDependents(2);
-        request.setHouse(new HouseRequest(MORTGAGED_STATUS));
+        request.setHouse(new HouseRequest(MORTGAGED));
         request.setIncome(0d);
         request.setMaritalStatus("married");
         request.setRiskQuestions(List.of(0,1,0));

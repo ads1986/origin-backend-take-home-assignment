@@ -1,10 +1,10 @@
 package com.origin.financial.presentation.controller;
 
 import com.origin.financial.domain.model.Customer;
-import com.origin.financial.domain.usecase.ProcessAutoInsurance;
-import com.origin.financial.domain.usecase.ProcessDisabilityInsurance;
-import com.origin.financial.domain.usecase.ProcessHomeInsurance;
-import com.origin.financial.domain.usecase.ProcessLifeInsurance;
+import com.origin.financial.domain.usecase.CalculateAutoInsurance;
+import com.origin.financial.domain.usecase.CalculateDisabilityInsurance;
+import com.origin.financial.domain.usecase.CalculateHomeInsurance;
+import com.origin.financial.domain.usecase.CalculateLifeInsurance;
 import com.origin.financial.presentation.request.CustomerRequest;
 import com.origin.financial.presentation.response.RiskProfileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +18,25 @@ import javax.validation.Valid;
 public class InsuranceController {
 
     @Autowired
-    private ProcessHomeInsurance homeInsurance;
+    private CalculateHomeInsurance home;
 
     @Autowired
-    private ProcessAutoInsurance autoInsurance;
+    private CalculateAutoInsurance auto;
 
     @Autowired
-    private ProcessLifeInsurance lifeInsurance;
+    private CalculateLifeInsurance life;
 
     @Autowired
-    private ProcessDisabilityInsurance disabilityInsurance;
+    private CalculateDisabilityInsurance disability;
 
     @PostMapping("/insurance/profile")
     public RiskProfileResponse generate(@Valid @RequestBody CustomerRequest request){
         Customer customer = request.toRequest();
         return RiskProfileResponse.builder()
-                .auto(autoInsurance.process(customer))
-                .disability(disabilityInsurance.process(customer))
-                .home(homeInsurance.process(customer))
-                .life(lifeInsurance.process(customer))
+                .auto(auto.calculate(customer).getProfile())
+                .disability(disability.calculate(customer).getProfile())
+                .home(home.calculate(customer).getProfile())
+                .life(life.calculate(customer).getProfile())
                 .build();
     }
 }
