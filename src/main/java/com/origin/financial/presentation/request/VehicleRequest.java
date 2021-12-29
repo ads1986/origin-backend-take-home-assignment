@@ -10,6 +10,7 @@ import javax.validation.constraints.Positive;
 @NoArgsConstructor
 @Getter
 public class VehicleRequest {
+    private String id;
     @Positive
     private Integer year;
 }

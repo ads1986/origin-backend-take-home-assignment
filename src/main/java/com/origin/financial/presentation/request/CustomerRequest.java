@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -36,19 +37,29 @@ public class CustomerRequest {
     private List<Integer> riskQuestions;
 
     @Valid
-    private HouseRequest house;
+    private List<HouseRequest> houses;
 
     @Valid
-    private VehicleRequest vehicle;
+    private List<VehicleRequest> vehicles;
 
     public Customer toRequest(){
+        List<House> houses = new ArrayList<>();
+
+        for (HouseRequest house : this.houses)
+                houses.add(new House(house.getId(), house.getOwnershipStatus()));
+
+        List<Vehicle> vehicles = new ArrayList<>();
+
+        for (VehicleRequest vehicle : this.vehicles)
+            vehicles.add(new Vehicle(vehicle.getId(), vehicle.getYear()));
+
         return Customer.builder()
                 .age(this.age)
                 .dependents(this.dependents)
-                .house(this.house != null ? new House(this.house.getOwnershipStatus()) : null)
+                .houses(this.houses != null ? houses : null)
                 .maritalStatus(this.getMaritalStatus())
                 .riskQuestions(this.riskQuestions)
-                .vehicle(this.vehicle != null ? new Vehicle(this.vehicle.getYear()) : null)
+                .vehicles(this.vehicles != null ? vehicles : null)
                 .build();
     }
 

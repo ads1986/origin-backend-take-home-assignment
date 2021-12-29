@@ -16,6 +16,8 @@ public class Vehicle {
 
     private static Integer FIVE_YEARS = 5;
 
+    private String id;
+
     @NotNull
     @Min(0)
     private int year;

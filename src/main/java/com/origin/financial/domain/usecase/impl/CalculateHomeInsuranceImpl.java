@@ -18,6 +18,7 @@ public class CalculateHomeInsuranceImpl implements CalculateHomeInsurance {
         riskScore.removeWhenAgeBelowThirty(2);
         riskScore.removeWhenAgeBetweenThirtyAndForty(1);
         riskScore.addWhenHasMortgaged(1);
+        riskScore.addWhenOnlyOneHouse(1);
 
         return riskScore;
     }

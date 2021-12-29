@@ -19,6 +19,7 @@ public class CalculateLifeInsuranceImpl implements CalculateLifeInsurance {
         riskScore.removeWhenAgeBetweenThirtyAndForty(1);
         riskScore.addWhenHasDependents(1);
         riskScore.addWhenIsMarried(1);
+        riskScore.addWhenDomesticPartinership(1);
 
         return riskScore;
     }

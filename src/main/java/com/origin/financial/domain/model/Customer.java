@@ -1,10 +1,8 @@
 package com.origin.financial.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -13,6 +11,8 @@ import java.util.List;
 @Getter
 public class Customer {
 
+    public static final String DIVORCED = "divorced";
+    public static final String DOMESTIC_PARTNERSHIP = "domestic partnership";
     public static final String MARRIED = "married";
     public static final String SINGLE = "single";
 
@@ -23,11 +23,21 @@ public class Customer {
 
     private int age;
     private int dependents;
-    private House house;
+    @Singular
+    private List<House> houses;
     private Double income;
     private String maritalStatus;
     private List<Integer> riskQuestions;
-    private Vehicle vehicle;
+    @Singular
+    private List<Vehicle> vehicles;
+
+    public Boolean isDivorced(){
+        return maritalStatus == DIVORCED;
+    }
+
+    public Boolean isDomesticPartnership(){
+        return maritalStatus == DOMESTIC_PARTNERSHIP;
+    }
 
     public Boolean isMarried(){
         return maritalStatus == MARRIED;
@@ -56,11 +66,20 @@ public class Customer {
     }
 
     public Boolean hasNoHouse(){
-        return this.house == null;
+        return this.getHouses().size() == 0;
+    }
+
+    public Boolean hasOnlyOneHouse(){
+        return this.houses.size() == 1;
     }
 
     public Boolean hasNoVehicle(){
-        return this.vehicle == null;
+        return this.getVehicles().size() == 0;
     }
+
+    public Boolean hasOnlyOneVehicle(){
+        return this.vehicles.size() == 1;
+    }
+
 
 }

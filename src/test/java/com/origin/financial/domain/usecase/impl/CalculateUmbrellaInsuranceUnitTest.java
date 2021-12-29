@@ -12,21 +12,13 @@ import static com.origin.financial.domain.model.House.OWNED;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CalculateHomeInsuranceUnitTest {
+public class CalculateUmbrellaInsuranceUnitTest {
 
     private BaseCalculateInsurance insurance;
 
     @BeforeEach
     void init(){
-        insurance = new CalculateHomeInsuranceImpl();
-    }
-
-    @Test
-    @DisplayName("Home Insurance | Has no house")
-    void processScoreTest1(){
-        Customer customer = Customer.builder().build();
-        RiskScore riskScore = insurance.calculate(customer);
-        assertThat(riskScore.isIneligible());
+        insurance = new CalculateUmbrellaInsuranceImpl();
     }
 
     @Test
@@ -34,7 +26,7 @@ public class CalculateHomeInsuranceUnitTest {
     void processScoreTest2(){
         Customer customer = Customer.builder().income(200001d).age(42).houses(singletonList(new House("1", OWNED))).build();
         RiskScore riskScore = insurance.calculate(customer);
-        assertThat(riskScore.getScore()).isEqualTo(0);
+        assertThat(riskScore.getScore()).isEqualTo(-1);
         assertThat(riskScore.getProfile()).isEqualTo("economic");
     }
 
@@ -43,7 +35,7 @@ public class CalculateHomeInsuranceUnitTest {
     void processScoreTest3(){
         Customer customer = Customer.builder().income(100000d).age(29).houses(singletonList(new House("1", OWNED))).build();
         RiskScore riskScore = insurance.calculate(customer);
-        assertThat(riskScore.getScore()).isEqualTo(-1);
+        assertThat(riskScore.getScore()).isEqualTo(-2);
         assertThat(riskScore.getProfile()).isEqualTo("economic");
     }
 
@@ -52,17 +44,8 @@ public class CalculateHomeInsuranceUnitTest {
     void processScoreTest4(){
         Customer customer = Customer.builder().income(20000d).age(32).houses(singletonList(new House("1", OWNED))).build();
         RiskScore riskScore = insurance.calculate(customer);
-        assertThat(riskScore.getScore()).isEqualTo(0);
+        assertThat(riskScore.getScore()).isEqualTo(-1);
         assertThat(riskScore.getProfile()).isEqualTo("economic");
-    }
-
-    @Test
-    @DisplayName("Home Insurance | Has a house with mortgaged")
-    void processScoreTest5(){
-        Customer customer = Customer.builder().income(20000d).age(42).houses(singletonList(new House("1", OWNED))).build();
-        RiskScore riskScore = insurance.calculate(customer);
-        assertThat(riskScore.getScore()).isEqualTo(1);
-        assertThat(riskScore.getProfile()).isEqualTo("regular");
     }
 
 }

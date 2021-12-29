@@ -56,7 +56,14 @@ public class RiskScore {
     }
 
     public void addWhenHasMortgaged(int value){
-        if (customer.getHouse() != null && customer.getHouse().isMortgaged())
+        for (House house : customer.getHouses()) {
+            if (house.isMortgaged())
+                score += value;
+        }
+    }
+
+    public void addWhenOnlyOneHouse(int value){
+        if (customer.getHouses().size() == 1)
             score += value;
     }
 
@@ -66,13 +73,30 @@ public class RiskScore {
     }
 
     public void addWhenAutoHasLastFiveYears(int value){
-        if (customer.getVehicle() != null && customer.getVehicle().hasAutoLastFiveYears())
+        for (Vehicle vehicle : customer.getVehicles()) {
+            if(vehicle.hasAutoLastFiveYears())
+                score += value;
+        }
+    }
+
+    public void addWhenOnlyOneVehicle(int value){
+        if (customer.getVehicles().size() == 1)
             score += value;
     }
 
     public void addWhenIsMarried(int value){
         if (customer.isMarried())
             score += value;
+    }
+
+    public void addWhenDomesticPartinership(int value){
+        if (customer.isDomesticPartnership())
+            score += value;
+    }
+
+    public void removeWhenDomesticPartnership(int value){
+        if (customer.isDomesticPartnership())
+            score -= value;
     }
 
     public boolean isIneligible() {
@@ -82,7 +106,6 @@ public class RiskScore {
     public int getScore() {
         return score;
     }
-
 
     public String getProfile(){
         if (this.ineligible)

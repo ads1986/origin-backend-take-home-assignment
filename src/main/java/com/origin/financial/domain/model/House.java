@@ -7,12 +7,18 @@ import lombok.Getter;
 @Getter
 public class House {
 
+    public static final String RENTED = "rented";
     public static final String MORTGAGED = "mortgaged";
-    public static final String OWNED = "single";
+    public static final String OWNED = "owned";
 
+    private String id;
     private String ownershipStatus;
 
     public Boolean isMortgaged(){
-        return this.ownershipStatus == MORTGAGED;
+        return MORTGAGED.equals(this.ownershipStatus);
+    }
+
+    public Boolean isRented(){
+        return RENTED.equals(this.ownershipStatus);
     }
 }

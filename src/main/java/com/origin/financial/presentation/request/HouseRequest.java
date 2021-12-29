@@ -11,8 +11,9 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @Getter
 public class HouseRequest {
+    private String id;
     @Pattern(regexp = "mortgaged|owned", message = "Ownership Status must to be : mortgaged our owned")
     @JsonProperty("ownership_status")
     private String ownershipStatus;
-}
 
+}
